@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+    MLFLOW_S3_BUCKET: "mlflow-ds-platform"
+    MLFLOW_RUN_ID: "test_id"
+    MLFLOW_ATRIFACT_PATH: "test_path"
+    AWS_REGION: "ap-south-1"
+    AWS_ACCOUNT_ID: "369737379577"
+    ECR_REPOSITORY: "369737379577.dkr.ecr.ap-south-1.amazonaws.com/mlflow_servers"
+    IMAGE_NAME: "mlflow_server_image_"$MLFLOW_RUN_ID
+  exported-variables:
+    - MLFLOW_RUN_ID
+    - CODEBUILD_BUILD_ID
+    - IMAGE_NAME
+
+phases:
+  pre_build:
+    commands:
+      - echo Creating the docker file
+      - $(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com)
+  build:
+    commands:
+      - echo Build docker image
+      - python build-dockerfile.py
+      - echo Docker Image Built
+  post_build:
+    commands:
+      - echo Pushing to docker repo
+      - docker tag $IMAGE_NAME aws_account_id.dkr.ecr.region.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
+      - docker push aws_account_id.dkr.ecr.region.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
+      - echo Pushed
+
+artifacts:
+  files: imagedefinitions.json
