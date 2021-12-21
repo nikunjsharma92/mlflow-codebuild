@@ -24,7 +24,6 @@ if __name__ == '__main__':
 
 	download_s3_folder(os.getenv("MLFLOW_S3_BUCKET", "mlflow-ds-platform"), os.getenv("MLFLOW_ATRIFACT_PATH", "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"), local_dir)
 
-# "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"
 	cmd = '''
 FROM ubuntu:21.04
 RUN apt-get update
@@ -50,10 +49,10 @@ CMD ['./run_server.sh']
 	with open("Dockerfile", "w") as text_file:
 		text_file.write(cmd)
 	
-	# import subprocess
-	# print("Creating Image: ", os.getenv("IMAGE_NAME", '12345'))
-	# p = subprocess.Popen('docker build . -t '+os.getenv("IMAGE_NAME", '12345'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-	# for line in p.stdout.readlines():
-	#     print(line, flush=True)
-	# retval = p.wait()
+	import subprocess
+	print("Creating Image: ", os.getenv("IMAGE_NAME", '12345'))
+	p = subprocess.Popen('docker build . -t '+os.getenv("IMAGE_NAME", '12345'), shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+	for line in p.stdout.readlines():
+	    print(line, flush=True)
+	retval = p.wait()
 
