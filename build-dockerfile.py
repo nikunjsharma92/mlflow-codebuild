@@ -22,7 +22,7 @@ if __name__ == '__main__':
 	if not os.path.exists(local_dir):
 	    os.mkdir(local_dir)
 
-	download_s3_folder(os.getenv("MLFLOW_S3_BUCKET", "mlflow-ds-platform"), os.getenv("MLFLOW_ATRIFACT_PATH", "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"), local_dir)
+	download_s3_folder(os.getenv("MLFLOW_S3_BUCKET", "mlflow-ds-platform"), os.getenv("MLFLOW_ARTIFACT_PATH", "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"), local_dir)
 
 	cmd = '''
 FROM ubuntu:21.04

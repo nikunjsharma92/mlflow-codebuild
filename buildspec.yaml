@@ -4,7 +4,7 @@ env:
   variables:
     MLFLOW_S3_BUCKET: "mlflow-ds-platform"
     MLFLOW_RUN_ID: "83643edb89e54317a8034ac3a7304fe6"
-    MLFLOW_ATRIFACT_PATH: "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"
+    MLFLOW_ARTIFACT_PATH: "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"
     AWS_REGION: "ap-south-1"
     AWS_ACCOUNT_ID: "369737379577"
     ECR_REPOSITORY: "mlflow_servers"
