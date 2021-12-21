@@ -3,12 +3,12 @@ version: 0.2
 env:
   variables:
     MLFLOW_S3_BUCKET: "mlflow-ds-platform"
-    MLFLOW_RUN_ID: "test_id"
-    MLFLOW_ATRIFACT_PATH: "test_path"
+    MLFLOW_RUN_ID: "83643edb89e54317a8034ac3a7304fe6"
+    MLFLOW_ATRIFACT_PATH: "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"
     AWS_REGION: "ap-south-1"
     AWS_ACCOUNT_ID: "369737379577"
-    ECR_REPOSITORY: "369737379577.dkr.ecr.ap-south-1.amazonaws.com/mlflow_servers"
-    IMAGE_NAME: "mlflow_server_image_"$MLFLOW_RUN_ID
+    ECR_REPOSITORY: "mlflow_servers"
+    IMAGE_NAME: "mlflow_server_image_83643edb89e54317a8034ac3a7304fe6"
   exported-variables:
     - MLFLOW_RUN_ID
     - CODEBUILD_BUILD_ID
@@ -18,7 +18,6 @@ phases:
   pre_build:
     commands:
       - echo Creating the docker file
-      - $(aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com)
   build:
     commands:
       - echo Build docker image
@@ -26,10 +25,11 @@ phases:
       - echo Docker Image Built
   post_build:
     commands:
-      - echo Pushing to docker repo
-      - docker tag $IMAGE_NAME aws_account_id.dkr.ecr.region.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
-      - docker push aws_account_id.dkr.ecr.region.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
-      - echo Pushed
-
-artifacts:
-  files: imagedefinitions.json
+      - echo Pushing $IMAGE_NAME to docker repo $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - echo Will try to push docker image to ecr
+      - docker image ls
+      - docker tag $IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
+      - docker image ls
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
+      - echo Pushed $IMAGE_NAME to docker repo $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_NAME
