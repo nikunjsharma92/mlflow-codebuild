@@ -3,10 +3,10 @@ version: 0.2
 env:
   variables:
     MLFLOW_S3_BUCKET: "mlflow-ds-platform"
-    MLFLOW_RUN_ID: "83643edb89e54317a8034ac3a7304fe6"
-    MLFLOW_ARTIFACT_PATH: "mlflow/artifacts/7/83643edb89e54317a8034ac3a7304fe6/artifacts/eswine4"
+    MLFLOW_RUN_ID: "xxxxxx"
+    MLFLOW_ARTIFACT_PATH: "xxxxxx"
     AWS_REGION: "ap-south-1"
-    AWS_ACCOUNT_ID: "369737379577"
+    AWS_ACCOUNT_ID: "xxxxxxxx"
     ECR_REPOSITORY: "mlflow_servers"
     IMAGE_NAME: "mlflow_server_image_83643edb89e54317a8034ac3a7304fe6"
   exported-variables:
